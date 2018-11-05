@@ -1,15 +1,16 @@
 package planet.detail;
 
-import java.awt.image.BufferedImage;
+
 
 
 public class Planet implements PlanetPlan {
 
 	String name;
 	Double diameter;
+	
 	Double temp;
 	int numbOfMoons;
-	BufferedImage planetImg;
+	String planetImg;
 	
 	public void setPlanetName(String name) {
 		this.name = name;
@@ -32,8 +33,33 @@ public class Planet implements PlanetPlan {
 
 	}
 
-	public void setPlanetImg(BufferedImage planet) {
-		this.planetImg = planet;
+	
+	@Override
+	public void setPlanetImg(String planet) {
+		// TODO Auto-generated method stub
+		
 	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public Double getDiameter() {
+		return diameter;
+	}
+
+	public Double getTemp() {
+		return temp;
+	}
+
+	public int getNumbOfMoons() {
+		return numbOfMoons;
+	}
+
+	public String getPlanetImg() {
+		return planetImg;
+	}
+
+
 
 }

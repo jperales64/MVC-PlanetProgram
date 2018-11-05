@@ -9,7 +9,9 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import planet.detail.Planet;
 import planet.detail.PlanetController;
+import planet.detail.PlanetDirector;
 
 public class AppMain extends Application {
 	public AppMain() {
@@ -17,7 +19,15 @@ public class AppMain extends Application {
 	
 	public static void main(String[] args) {
 		
-		launch(args);
+		//launch(args);
+		PlanetDirector pDir = new PlanetDirector();
+		pDir.makePlanet();
+		Planet planet = pDir.getPlanet();
+		
+		System.out.println("Planet Built");
+		System.out.println("Planet Name: " + planet.getName());
+		System.out.println("Planet Diameter" + planet.getDiameter());
+		System.out.println("Planet Temp: " + planet.getTemp());
 	}
 	
 	//FXML startup method

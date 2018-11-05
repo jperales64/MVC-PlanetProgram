@@ -1,7 +1,5 @@
 package planet.detail;
 
-import java.awt.image.BufferedImage;
-
 public class PlanetBuilder {
 	
 	private Planet planet;
@@ -27,7 +25,7 @@ public class PlanetBuilder {
 		
 	}
 	
-	public void buildPlanetImg(BufferedImage planetImg) {
+	public void buildPlanetImg(String planetImg) {
 		this.planet.setPlanetImg(planetImg);
 	}
 	
