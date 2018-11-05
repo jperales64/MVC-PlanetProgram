@@ -1,10 +1,13 @@
 package planet.detail;
 
+import java.io.Serializable;
 
+public class Planet implements PlanetPlan, Serializable   {
 
-
-public class Planet implements PlanetPlan {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String name;
 	Double diameter;
 	

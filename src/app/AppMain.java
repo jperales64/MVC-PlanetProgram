@@ -12,22 +12,28 @@ import javafx.stage.Stage;
 import planet.detail.Planet;
 import planet.detail.PlanetController;
 import planet.detail.PlanetDirector;
+import planet.detail.PlanetLoader;
+import planet.detail.PlanetSaver;
 
 public class AppMain extends Application {
 	public AppMain() {
 	}
 	
 	public static void main(String[] args) {
-		
-		//launch(args);
+		launch(args);
+		/*
+		String filename = "c:\\temp\\Neptune.ser";
+		PlanetLoader pLoader = new PlanetLoader();
+		PlanetSaver pSaver = new PlanetSaver();
 		PlanetDirector pDir = new PlanetDirector();
 		pDir.makePlanet();
 		Planet planet = pDir.getPlanet();
 		
-		System.out.println("Planet Built");
-		System.out.println("Planet Name: " + planet.getName());
-		System.out.println("Planet Diameter" + planet.getDiameter());
-		System.out.println("Planet Temp: " + planet.getTemp());
+		pSaver.serializePlanet(planet);
+		Planet loadedPlanet = pLoader.deserialzeAddress(filename);
+		System.out.println(loadedPlanet.getName());
+		*/
+		
 	}
 	
 	//FXML startup method
