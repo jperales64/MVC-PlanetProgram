@@ -15,6 +15,14 @@ public class Planet implements PlanetPlan, Serializable   {
 	int numbOfMoons;
 	String planetImg;
 	
+	public Planet() {
+		this.name = "";
+		this.diameter = -1.0;
+		this.temp = -300.0;
+		this.numbOfMoons = -1;
+		this.planetImg = "images/no_image.png";
+	}
+	
 	public void setPlanetName(String name) {
 		this.name = name;
 
