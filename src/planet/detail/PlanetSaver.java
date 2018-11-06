@@ -9,7 +9,7 @@ public class PlanetSaver {
 	public void serializePlanet(Planet planet) {
 		String fileName = "c:\\temp\\" + planet.getName() + ".ser";
 		FileOutputStream fout = null;
-		ObjectOutputStream oos = null;
+		ObjectOutputStream oos = null; 
 
 		try {
 

@@ -8,7 +8,7 @@ public class PlanetBuilder {
 		this.planet = new Planet();
 	}
 	
-	public void buildPlanetName(String name) {
+	public void buildPlanetName(String name) { 
 		this.planet.setPlanetName(name);
 	}
 	

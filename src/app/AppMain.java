@@ -26,12 +26,12 @@ public class AppMain extends Application {
 		PlanetLoader pLoader = new PlanetLoader();
 		PlanetSaver pSaver = new PlanetSaver();
 		PlanetDirector pDir = new PlanetDirector();
-		pDir.makePlanet();
+		pDir.makePlanet("Neptune", 12.3, 13, 50.0, "images/neptune.png");
 		Planet planet = pDir.getPlanet();
 		
 		pSaver.serializePlanet(planet);
 		Planet loadedPlanet = pLoader.deserialzeAddress(filename);
-		System.out.println(loadedPlanet.getName());
+		System.out.println(loadedPlanet.getPlanetImg());
 		*/
 		
 	}

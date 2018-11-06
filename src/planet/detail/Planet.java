@@ -38,8 +38,8 @@ public class Planet implements PlanetPlan, Serializable   {
 
 	
 	@Override
-	public void setPlanetImg(String planet) {
-		// TODO Auto-generated method stub
+	public void setPlanetImg(String planetImg) {
+		this.planetImg = planetImg;
 		
 	}
 	
