@@ -6,7 +6,7 @@ import java.io.ObjectInputStream;
 
 public class PlanetLoader {
 
-	public Planet deserialzeAddress(String filename) {
+	public Planet loadPlanet(String filename) {
 
 		Planet planet = null;
 
