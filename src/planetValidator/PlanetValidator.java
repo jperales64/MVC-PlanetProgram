@@ -16,20 +16,39 @@ public class PlanetValidator {
 			return true;
 		}
 	}
-//	boolean validateDiameter(double planetDiameter){
-//		
-//	}
-//	boolean validateTemp(double planetTemp){
-//		
-//	}
-//	boolean validateNumOfMoons(int numOfMoons){
-//		
-//	}
-//	boolean validateImage(String planetImgPath){
-//		
-//	}
-//	boolean validatePlanet(Planet planet){
-//		
-//	}
+	boolean validateDiameter(double planetDiameter){
+		if(planetDiameter < 0 || planetDiameter > 200000) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	boolean validateTemp(double planetTemp){
+		if(planetTemp < -273.15 || planetTemp > 500.0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	boolean validateNumOfMoons(int numOfMoons){
+		if(numOfMoons < 0 || numOfMoons > 1000) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	boolean validatePlanet(Planet planet){
+		if(!(validateName(planet.getName()) && validateDiameter(planet.getDiameter())
+				&& validateTemp(planet.getTemp()) && validateNumOfMoons(planet.getNumbOfMoons()))) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 	
 }
