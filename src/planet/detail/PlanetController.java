@@ -1,10 +1,8 @@
 package planet.detail;
 
-import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+
 import java.text.NumberFormat;
 import java.text.ParseException;
 
@@ -12,24 +10,15 @@ import javax.swing.JFileChooser;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.NumberBinding;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
+
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.util.converter.DoubleStringConverter;
+
 import planetValidator.PlanetValidator;
 import unitConverter.UnitConverter;
 
@@ -53,9 +42,9 @@ public class PlanetController {
 	@FXML private TextField planetMeanSurfaceTempF;
 	@FXML private TextField planetNumberOfMoons;
 	@FXML private Label fancyPlanetName;
+	@FXML private Button saveButton;
 	
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
-    private DoubleProperty meters;
 
 	public PlanetController() {
 	}
@@ -70,18 +59,14 @@ public class PlanetController {
 
 		planetFileChooser.grabFocus();
 		int r = planetFileChooser.showOpenDialog(null);
-		
 	
 		if (r == JFileChooser.APPROVE_OPTION)
-
 		{
-			
 			fileName = planetFileChooser.getSelectedFile().getAbsolutePath();
 			planet = planetLoader.loadPlanet(fileName);
 			
 			setTextFields(planet);
 			setPlanetImage(planet);
-			
 		}
 	}
 	
@@ -132,6 +117,10 @@ public class PlanetController {
 		
 		planetNumberOfMoons.setText(Integer.toString(planet.getNumbOfMoons()));
 		
+		if (planetName.getText().equals("")) {
+			saveButton.setDisable(true);
+		}
+		
 	}
 	void setPlanetImage(Planet planet){
 		try {
@@ -170,21 +159,29 @@ public class PlanetController {
 			}
         }
     };
+    
+	private InvalidationListener nothingToSave = (Observable o) -> {
+		if (planetName.isFocused()) {
+			if (planetName.getText().equals("")) {
+				saveButton.setDisable(true);
+			}else {
+				saveButton.setDisable(false);
+			}
+		}
+    };
 	
 	public void initialize() {
 		
-		Planet defaultPlanet = new Planet();
+		//Planet defaultPlanet = new Planet();
 		
-		setTextFields(defaultPlanet);
-		setPlanetImage(defaultPlanet);
+		setTextFields(planet);
+		setPlanetImage(planet);
 				
 		planetDiameterKM.textProperty().addListener(fromKilometers);
 		planetMeanSurfaceTempC.textProperty().addListener(fromCelcius);
+		planetName.textProperty().addListener(nothingToSave);
 		
 		fancyPlanetName.textProperty().bind(planetName.textProperty());
-		//planetMeanSurfaceTempF.textProperty().bind(planetMeanSurfaceTempC.textProperty());
-		
-
 
 	}
 

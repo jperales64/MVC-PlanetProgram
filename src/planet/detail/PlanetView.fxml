@@ -103,7 +103,7 @@
       <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#loadPlanet" text="Load Planet from File" />
-            <Button mnemonicParsing="false" onAction="#savePlanet" text="Save Planet to File" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#savePlanet" text="Save Planet to File" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" top="20.0" />
