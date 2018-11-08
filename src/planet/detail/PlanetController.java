@@ -41,6 +41,7 @@ public class PlanetController {
 	public UnitConverter unitConverter = new UnitConverter();
 	private PlanetDirector planetDirector = new PlanetDirector();
 	private PlanetValidator planetValidator = new PlanetValidator();
+
 	
 	
 	@FXML private ImageView planetImage;
@@ -109,8 +110,17 @@ public class PlanetController {
 	}
 
 	void setTextFields(Planet planet)  {
+		String planetDiameterInKilometers;
+		String planetDiameterInMiles;
+		
 		planetName.setText(planet.getPlanetName());
-		planetDiameterKM.setText(Double.toString(planet.getDiameter()));
+
+		planetDiameterInKilometers = Double.toString(planet.getDiameter());
+		planetDiameterKM.setText(planetDiameterInKilometers);
+		
+		planetDiameterInMiles = Double.toString(unitConverter.kilometerToMile(planet.getDiameter()));
+		planetDiameterM.setText(planetDiameterInMiles);
+		
 		planetMeanSurfaceTempC.setText(Double.toString(planet.getTemperature()));
 		planetNumberOfMoons.setText(Integer.toString(planet.getNumbOfMoons()));
 		
@@ -124,12 +134,6 @@ public class PlanetController {
 			e.printStackTrace();
 		}
 	}
-	
-    private InvalidationListener toKilometers = (Observable o) -> {
-        if (!planetDiameterKM.isFocused()) {
-        	System.out.println(planetDiameterM.getText());
-        }
-    };
 	
 	private InvalidationListener fromKilometers = (Observable o) -> {
         if (planetDiameterKM.isFocused()) {
@@ -150,26 +154,16 @@ public class PlanetController {
 		
 		Planet defaultPlanet = new Planet();
 		
-		
-		
-		//StringProperty diameter = new SimpleStringProperty();
-		
+		setTextFields(defaultPlanet);
+		setPlanetImage(defaultPlanet);
+				
 		planetDiameterKM.textProperty().addListener(fromKilometers);
-		planetDiameterM.textProperty().addListener(toKilometers);
-		//fromKilometers.invalidated(null);
-		//planetDiameterKM.textProperty().bind(diameter);
-		
-		//planet.setDiameter(Double.parseDouble(planetDiameterKM.getText()));
-		//UnitConverter unitConverter = new UnitConverter();
-		
 		
 		fancyPlanetName.textProperty().bind(planetName.textProperty());
-		//planetDiameterM.textProperty().bind(planetDiameterKM.textProperty());
 		planetMeanSurfaceTempF.textProperty().bind(planetMeanSurfaceTempC.textProperty());
 		
 
-		setTextFields(defaultPlanet);
-		setPlanetImage(defaultPlanet);
+
 	}
 
 }
