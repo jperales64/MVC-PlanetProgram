@@ -23,35 +23,18 @@ public class PlanetController {
 	private PlanetLoader planetLoader = new PlanetLoader();
 	final JFileChooser planetFileChooser = new JFileChooser("c:\\temp\\");
 	private Planet planet;
-	@FXML
-	private ImageView planetImage;
-
-	@FXML
-	private Button selectImageButton;
-
-	@FXML
-	private TextField planetName;
-
-	@FXML
-	private TextField planetDiameterKM;
-
-	@FXML
-	private TextField planetDiameterM;
-
-	@FXML
-	private TextField planetMeanSurfaceTempC;
-
-	@FXML
-	private TextField planetMeanSurfaceTempF;
-
-	@FXML
-	private TextField planetNumberOfMoons;
-
-	@FXML
-	private Label fancyPlanetName;
+	
+	@FXML private ImageView planetImage;
+	@FXML private Button selectImageButton;
+	@FXML private TextField planetName;
+	@FXML private TextField planetDiameterKM;
+	@FXML private TextField planetDiameterM;
+	@FXML private TextField planetMeanSurfaceTempC;
+	@FXML private TextField planetMeanSurfaceTempF;
+	@FXML private TextField planetNumberOfMoons;
+	@FXML private Label fancyPlanetName;
 
 	public PlanetController() {
-		
 	}
 
 	@FXML
@@ -74,17 +57,9 @@ public class PlanetController {
 			planet = planetLoader.loadPlanet(fileName);
 			
 			setTextFields(planet);
-			try {
-				setPlanetImage(planet);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-				
-			
+			setPlanetImage(planet);
 			
 		}
-
 	}
 
 	@FXML
@@ -99,12 +74,26 @@ public class PlanetController {
 		planetMeanSurfaceTempC.setText(planet.getTemp().toString());
 		planetNumberOfMoons.setText(Integer.toString(planet.getNumbOfMoons()));
 		
-		
 	}
-	void setPlanetImage(Planet planet) throws FileNotFoundException{
-		FileInputStream input = new FileInputStream(planet.getPlanetImg());
-		Image image = new Image(input);
-		planetImage.setImage(image);
+	void setPlanetImage(Planet planet){
+		try {
+			FileInputStream input = new FileInputStream(planet.getPlanetImg());
+			Image image = new Image(input);
+			planetImage.setImage(image);
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void initialize() {
+		
+		fancyPlanetName.textProperty().bind(planetName.textProperty());
+		
+		Planet defaultPlanet = new Planet();
+		setTextFields(defaultPlanet);
+		setPlanetImage(defaultPlanet);
+		
+
 	}
 
 }
