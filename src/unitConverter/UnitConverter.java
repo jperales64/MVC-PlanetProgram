@@ -13,13 +13,8 @@ import javafx.util.converter.NumberStringConverter;
 public class UnitConverter {
 	
 	//formula from https://www.metric-conversions.org/length/kilometers-to-miles.htm
-	public DoubleProperty kilometerToMile(DoubleProperty kilometerProperty) {
-		DoubleProperty conversionValue = new SimpleDoubleProperty();
-		DoubleProperty result = new SimpleDoubleProperty();
-		
-		conversionValue.set(0.6214);
-		NumberBinding product = conversionValue.multiply(kilometerProperty);
-		result.set(product.doubleValue());
+	public double kilometerToMile(double kilometers) {
+		double result = kilometers * 0.6214;
 		
 		return result;
 	}
