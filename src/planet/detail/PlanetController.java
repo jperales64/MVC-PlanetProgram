@@ -110,8 +110,11 @@ public class PlanetController {
 	}
 
 	void setTextFields(Planet planet)  {
+		//TODO: create an outputString method in unitConverter to save space.
 		String planetDiameterInKilometers;
 		String planetDiameterInMiles;
+		String planetTempInCelcius;
+		String planetTempInFahrenheit;
 		
 		planetName.setText(planet.getPlanetName());
 
@@ -121,7 +124,12 @@ public class PlanetController {
 		planetDiameterInMiles = Double.toString(unitConverter.kilometerToMile(planet.getDiameter()));
 		planetDiameterM.setText(planetDiameterInMiles);
 		
-		planetMeanSurfaceTempC.setText(Double.toString(planet.getTemperature()));
+		planetTempInCelcius = Double.toString(planet.getTemperature());
+		planetMeanSurfaceTempC.setText(planetTempInCelcius);
+		
+		planetTempInFahrenheit = Double.toString(unitConverter.celciusToFahrenheit(planet.getTemperature()));
+		planetMeanSurfaceTempF.setText(planetTempInFahrenheit);
+		
 		planetNumberOfMoons.setText(Integer.toString(planet.getNumbOfMoons()));
 		
 	}
@@ -139,12 +147,25 @@ public class PlanetController {
         if (planetDiameterKM.isFocused()) {
         	Number n;
         	double diameterInMiles;
-        	UnitConverter unitConverter = new UnitConverter();
 			try {
 				n = numberFormat.parse(planetDiameterKM.getText());
 	        	this.planet.setDiameter(n.doubleValue());
 	        	diameterInMiles = unitConverter.kilometerToMile(n.doubleValue());
 	        	planetDiameterM.setText(Double.toString(diameterInMiles));
+			} catch (ParseException e) {
+			}
+        }
+    };
+    
+	private InvalidationListener fromCelcius = (Observable o) -> {
+        if (planetMeanSurfaceTempC.isFocused()) {
+        	Number n;
+        	double tempInFahrenheit;
+			try {
+				n = numberFormat.parse(planetMeanSurfaceTempC.getText());
+	        	this.planet.setTemperature(n.doubleValue());
+	        	tempInFahrenheit = unitConverter.celciusToFahrenheit(n.doubleValue());
+	        	planetMeanSurfaceTempF.setText(Double.toString(tempInFahrenheit));
 			} catch (ParseException e) {
 			}
         }
@@ -158,9 +179,10 @@ public class PlanetController {
 		setPlanetImage(defaultPlanet);
 				
 		planetDiameterKM.textProperty().addListener(fromKilometers);
+		planetMeanSurfaceTempC.textProperty().addListener(fromCelcius);
 		
 		fancyPlanetName.textProperty().bind(planetName.textProperty());
-		planetMeanSurfaceTempF.textProperty().bind(planetMeanSurfaceTempC.textProperty());
+		//planetMeanSurfaceTempF.textProperty().bind(planetMeanSurfaceTempC.textProperty());
 		
 
 
