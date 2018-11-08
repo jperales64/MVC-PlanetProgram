@@ -18,11 +18,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import unitConverter.UnitConverter;
 
 public class PlanetController {
 	private PlanetLoader planetLoader = new PlanetLoader();
 	final JFileChooser planetFileChooser = new JFileChooser("c:\\temp\\");
-	private Planet planet;
+	private Planet planet = new Planet();
+	public UnitConverter unitConverter = new UnitConverter();;
 	
 	@FXML private ImageView planetImage;
 	@FXML private Button selectImageButton;
@@ -86,14 +88,14 @@ public class PlanetController {
 	}
 	
 	public void initialize() {
-		
+		//double planetDiameterKmToMi = unitConverter.kilometerToMile(Double.parseDouble(planetDiameterKM.textProperty().toString()));
 		fancyPlanetName.textProperty().bind(planetName.textProperty());
+		planetDiameterM.textProperty().bind(planetDiameterKM.textProperty());
+		planetMeanSurfaceTempF.textProperty().bind(planetMeanSurfaceTempC.textProperty());
 		
-		Planet defaultPlanet = new Planet();
-		setTextFields(defaultPlanet);
-		setPlanetImage(defaultPlanet);
-		
-
+		Planet planet = new Planet();
+		setTextFields(planet);
+		setPlanetImage(planet);
 	}
 
 }
