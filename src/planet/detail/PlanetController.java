@@ -18,13 +18,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import planetValidator.PlanetValidator;
 import unitConverter.UnitConverter;
 
 public class PlanetController {
 	private PlanetLoader planetLoader = new PlanetLoader();
+	private PlanetSaver planetSaver = new PlanetSaver();
 	final JFileChooser planetFileChooser = new JFileChooser("c:\\temp\\");
 	private Planet planet = new Planet();
-	public UnitConverter unitConverter = new UnitConverter();;
+	public UnitConverter unitConverter = new UnitConverter();
+	private PlanetDirector planetDirector = new PlanetDirector();
+	private PlanetValidator planetValidator = new PlanetValidator();
+	
 	
 	@FXML private ImageView planetImage;
 	@FXML private Button selectImageButton;
@@ -63,9 +68,27 @@ public class PlanetController {
 			
 		}
 	}
+	
+	Planet buildPlanetFromTextFields(){
+		String nameOfPlanet = planetName.getText();
+		Double diameter = Double.parseDouble(planetDiameterKM.getText());
+		Double temp = Double.parseDouble(planetMeanSurfaceTempC.getText());
+		int numbOfMoons = Integer.parseInt(planetNumberOfMoons.getText());
+		planetDirector.makePlanet(nameOfPlanet, diameter, numbOfMoons, temp, null);
+		return planetDirector.getPlanet();
+		
+	}
 
 	@FXML
 	void savePlanet(ActionEvent event) {
+		//Use the text in the text fields to build a planet and save it
+		planet = buildPlanetFromTextFields();
+		//IDk how to handle an Invalid planet GUI wise
+		boolean result = planetValidator.validatePlanet(planet);
+		if(!result){
+			
+		}
+		String filename = "c:\\temp\\" + planet.getName() + ".ser";
 		planetFileChooser.showSaveDialog(null);
 		planetFileChooser.grabFocus();
 	}
