@@ -1,8 +1,10 @@
 package planet.detail;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
@@ -56,18 +58,25 @@ public class PlanetController {
 	@FXML
 	void loadPlanet(ActionEvent event) {
 		String fileName;
-
-		planetFileChooser.grabFocus();
-		int r = planetFileChooser.showOpenDialog(null);
-	
-		if (r == JFileChooser.APPROVE_OPTION)
-		{
-			fileName = planetFileChooser.getSelectedFile().getAbsolutePath();
-			planet = planetLoader.loadPlanet(fileName);
-			
-			setTextFields(planet);
-			setPlanetImage(planet);
+		
+		File defaultPlanetFile = new File("saved_planets");
+		try {
+			Desktop.getDesktop().browse(defaultPlanetFile.toURI());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+//		planetFileChooser.grabFocus();
+//		int r = planetFileChooser.showOpenDialog(null);
+//	
+//		if (r == JFileChooser.APPROVE_OPTION)
+//		{
+//			fileName = planetFileChooser.getSelectedFile().getAbsolutePath();
+//			planet = planetLoader.loadPlanet(fileName);
+//			
+//			setTextFields(planet);
+//			setPlanetImage(planet);
+//		}
 	}
 	
 	Planet buildPlanetFromTextFields(){
@@ -142,6 +151,7 @@ public class PlanetController {
 	        	diameterInMiles = unitConverter.kilometerToMile(n.doubleValue());
 	        	planetDiameterM.setText(Double.toString(diameterInMiles));
 			} catch (ParseException e) {
+	        	planetDiameterM.setText("");
 			}
         }
     };
