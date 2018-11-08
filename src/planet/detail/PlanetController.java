@@ -8,16 +8,21 @@ import java.io.ObjectInputStream;
 
 import javax.swing.JFileChooser;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.NumberBinding;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.util.converter.DoubleStringConverter;
 import planetValidator.PlanetValidator;
 import unitConverter.UnitConverter;
 
@@ -88,15 +93,15 @@ public class PlanetController {
 		if(!result){
 			
 		}
-		String filename = "c:\\temp\\" + planet.getName() + ".ser";
+		String filename = "c:\\temp\\" + planet.getPlanetName() + ".ser";
 		planetFileChooser.showSaveDialog(null);
 		planetFileChooser.grabFocus();
 	}
 
 	void setTextFields(Planet planet)  {
-		planetName.setText(planet.getName());
-		planetDiameterKM.setText(planet.getDiameter().toString());
-		planetMeanSurfaceTempC.setText(planet.getTemp().toString());
+		planetName.setText(planet.getPlanetName());
+		planetDiameterKM.setText(Double.toString(planet.getDiameter()));
+		planetMeanSurfaceTempC.setText(Double.toString(planet.getTemperature()));
 		planetNumberOfMoons.setText(Integer.toString(planet.getNumbOfMoons()));
 		
 	}
@@ -111,12 +116,15 @@ public class PlanetController {
 	}
 	
 	public void initialize() {
-		//double planetDiameterKmToMi = unitConverter.kilometerToMile(Double.parseDouble(planetDiameterKM.textProperty().toString()));
+
+		
 		fancyPlanetName.textProperty().bind(planetName.textProperty());
 		planetDiameterM.textProperty().bind(planetDiameterKM.textProperty());
+		
 		planetMeanSurfaceTempF.textProperty().bind(planetMeanSurfaceTempC.textProperty());
 		
 		Planet planet = new Planet();
+
 		setTextFields(planet);
 		setPlanetImage(planet);
 	}

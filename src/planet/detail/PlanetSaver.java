@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 public class PlanetSaver {
 	
 	public void savePlanet(Planet planet) {
-		String fileName = "c:\\temp\\" + planet.getName() + ".ser";
+		String fileName = "c:\\temp\\" + planet.getPlanetName() + ".ser";
 		FileOutputStream fout = null;
 		ObjectOutputStream oos = null; 
 

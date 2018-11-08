@@ -12,12 +12,12 @@ public class PlanetBuilder {
 		this.planet.setPlanetName(name);
 	}
 	
-	public void buildDiameter(Double diameter) {
+	public void buildDiameter(double diameter) {
 		this.planet.setDiameter(diameter);
 	}
 	
-	public void buildTemp(Double temp) {
-		this.planet.setTemp(temp);
+	public void buildTemp(double temp) {
+		this.planet.setTemperature(temp);
 	}
 	
 	public void buildNumofMoons(int numOfMoons) {
