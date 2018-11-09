@@ -14,24 +14,28 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import planetValidator.PlanetValidator;
 import unitConverter.UnitConverter;
 
 public class PlanetController {
 	private PlanetLoader planetLoader = new PlanetLoader();
 	private PlanetSaver planetSaver = new PlanetSaver();
-	final JFileChooser planetFileChooser = new JFileChooser("c:\\temp\\");
+	//final JFileChooser planetFileChooser = new JFileChooser("c:\\temp\\");
 	private Planet planet = new Planet();
 	public UnitConverter unitConverter = new UnitConverter();
 	private PlanetDirector planetDirector = new PlanetDirector();
 	private PlanetValidator planetValidator = new PlanetValidator();
+	private Desktop desktop = Desktop.getDesktop();
+
 
 	
 	
@@ -45,6 +49,7 @@ public class PlanetController {
 	@FXML private TextField planetNumberOfMoons;
 	@FXML private Label fancyPlanetName;
 	@FXML private Button saveButton;
+	@FXML private Button loadButton;
 	
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
@@ -53,30 +58,31 @@ public class PlanetController {
 
 	@FXML
 	void selectImage(ActionEvent event) {
-	}
-
-	@FXML
-	void loadPlanet(ActionEvent event) {
-		String fileName;
-		
-		File defaultPlanetFile = new File("saved_planets");
+		File imageFolder = new File("images");
 		try {
-			Desktop.getDesktop().browse(defaultPlanetFile.toURI());
+			Desktop.getDesktop().browse(imageFolder.toURI());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-//		planetFileChooser.grabFocus();
-//		int r = planetFileChooser.showOpenDialog(null);
-//	
-//		if (r == JFileChooser.APPROVE_OPTION)
-//		{
-//			fileName = planetFileChooser.getSelectedFile().getAbsolutePath();
-//			planet = planetLoader.loadPlanet(fileName);
-//			
-//			setTextFields(planet);
-//			setPlanetImage(planet);
-//		}
+	}
+	
+    @FXML public void handleButtonAction(ActionEvent event) throws ParseException {
+        if(event.getSource() == loadButton) {
+        	loadPlanet();
+        }//else if (event.getSource() == saveButton) {
+        	//savePlanet();
+        //}else if (event.getSource() == selectImageButton) {
+        	//selectImage();
+        //}
+    }
+	
+	public void loadPlanet() {	
+		PlanetFileParser pfParser = new PlanetFileParser();
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setInitialDirectory(new File("saved_planets"));
+		File planetFile = fileChooser.showOpenDialog(loadButton.getScene().getWindow());
+		Planet loadedPlanet = pfParser.createPlanetFromFile(planetFile.getAbsolutePath());
+		System.out.println(loadedPlanet);
 	}
 	
 	Planet buildPlanetFromTextFields(){
@@ -99,8 +105,8 @@ public class PlanetController {
 			
 		}
 		String filename = "c:\\temp\\" + planet.getPlanetName() + ".ser";
-		planetFileChooser.showSaveDialog(null);
-		planetFileChooser.grabFocus();
+		//planetFileChooser.showSaveDialog(null);
+		//planetFileChooser.grabFocus();
 	}
 
 	void setTextFields(Planet planet)  {
@@ -124,7 +130,7 @@ public class PlanetController {
 		planetTempInFahrenheit = Double.toString(unitConverter.celciusToFahrenheit(planet.getTemperature()));
 		planetMeanSurfaceTempF.setText(planetTempInFahrenheit);
 		
-		planetNumberOfMoons.setText(Integer.toString(planet.getNumbOfMoons()));
+		planetNumberOfMoons.setText(Integer.toString(planet.getNumOfMoons()));
 		
 		if (planetName.getText().equals("")) {
 			saveButton.setDisable(true);
@@ -182,8 +188,7 @@ public class PlanetController {
 	
 	public void initialize() {
 		
-		//Planet defaultPlanet = new Planet();
-		
+		//loadButton.setDefaultButton(true);
 		setTextFields(planet);
 		setPlanetImage(planet);
 				

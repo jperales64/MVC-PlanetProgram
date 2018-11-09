@@ -74,17 +74,26 @@ public class Planet implements PlanetPlan, Serializable   {
 		this.numbOfMoons = numOfMoons;
 	}
 	
-	@Override
+	//@Override
 	public void setPlanetImg(String planetImg) {
 		this.planetImg = planetImg;
 	}
 	
-	public int getNumbOfMoons() {
+	public int getNumOfMoons() {
 		return numbOfMoons;
 	}
 
 	public String getPlanetImg() {
 		return planetImg;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getPlanetName() + "\n"
+				+ this.getDiameter() + "\n"
+				+ this.getTemperature() + "\n"
+				+ this.getNumOfMoons() + "\n"
+				+ this.getPlanetImg();
 	}
 
 
