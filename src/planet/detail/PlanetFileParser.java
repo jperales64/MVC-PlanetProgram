@@ -43,7 +43,6 @@ public class PlanetFileParser {
 		}catch (Exception e) {
 			System.out.println("Nothing in file to create from.");
 		}
-		
 		return planet;
 	}
 }

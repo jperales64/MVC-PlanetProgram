@@ -1,0 +1,5 @@
+TestPlanet
+1000.0
+200.0
+1
+images/no_image.png

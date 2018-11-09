@@ -3,52 +3,87 @@ package planetValidator;
 import planet.detail.Planet;
 
 public class PlanetValidator {
+	AlertBuilder alert = new AlertBuilder();
 
-	public boolean validateName(String planetName) {
+	public ValidationError validateName(String planetName) {
+		ValidationError error = ValidationError.NONE;
 		
 		if (planetName.length() < 1 || planetName.length() > 255) {
-			return false;
+			error = ValidationError.NAME_LENGTH;
 		}
 		else if (!(planetName.matches("^[a-zA-Z0-9-. ]+$"))) {
-			return false;
+			error = ValidationError.NAME_REGEX;
 		} 
-		else {
-			return true;
-		}
+		return error;
 	}
-	public boolean validateDiameter(double planetDiameter){
-		if(planetDiameter < 0 || planetDiameter > 200000) {
-			return false;
+	
+	public ValidationError validateDiameter(double planetDiameter){
+		ValidationError error = ValidationError.NONE;
+		
+		if(planetDiameter <= 0 || planetDiameter > 200000) {
+			error = ValidationError.DIAMETER_RANGE;
 		}
-		else {
-			return true;
-		}
+		return error;
 	}
-	public boolean validateTemp(double planetTemp){
+	
+	public ValidationError validateTemp(double planetTemp){
+		ValidationError error = ValidationError.NONE;
+		
 		if(planetTemp < -273.15 || planetTemp > 500.0) {
-			return false;
+			error =ValidationError.TEMPERATURE_RANGE;
 		}
-		else {
-			return true;
-		}
+		return error;
 	}
-	public boolean validateNumOfMoons(int numOfMoons){
+	
+	public ValidationError validateNumOfMoons(int numOfMoons){
+		ValidationError error = ValidationError.NONE;
+		
 		if(numOfMoons < 0 || numOfMoons > 1000) {
-			return false;
+			error = ValidationError.MOON_NUMBER_RANGE;
 		}
-		else {
-			return true;
-		}
+		return error;
 	}
 
 	public boolean validatePlanet(Planet planet){
-		if(!(validateName(planet.getName()) && validateDiameter(planet.getDiameter())
-				&& validateTemp(planet.getTemperature()) && validateNumOfMoons(planet.getNumberOfMoons()))) {
-			return false;
+		boolean isValid = true;
+
+		if(hasValidationErrors(validateName(planet.getName()), 
+				validateDiameter(planet.getDiameter()),
+				validateTemp(planet.getTemperature()),
+				validateNumOfMoons(planet.getNumberOfMoons()))){
+			isValid = false;
 		}
-		else {
-			return true;
+		return isValid;
+	}
+	
+	public boolean hasValidationErrors(ValidationError... codes) {
+		boolean validationError = false;
+		
+		for (ValidationError code: codes) {
+			if (!(code == ValidationError.NONE)) {
+				validationError = true;
+				break;
+			}
 		}
+		return validationError;
+	}
+	
+	public ValidationError getValidationError(Planet planet) {
+		
+		if (validateName(planet.getName()) == ValidationError.NAME_LENGTH){
+			return ValidationError.NAME_LENGTH;
+		} else if (validateName(planet.getName()) == ValidationError.NAME_REGEX){
+			return ValidationError.NAME_REGEX;
+		}else if (validateDiameter(planet.getDiameter()) == ValidationError.DIAMETER_RANGE){
+			return ValidationError.DIAMETER_RANGE;
+		}else if (validateTemp(planet.getTemperature()) == ValidationError.TEMPERATURE_RANGE){
+			return ValidationError.TEMPERATURE_RANGE;
+		}else if (validateNumOfMoons(planet.getNumberOfMoons()) == ValidationError.MOON_NUMBER_RANGE){
+			return ValidationError.MOON_NUMBER_RANGE;
+		}else {
+			return ValidationError.NONE;
+		}
+
 	}
 	
 }
