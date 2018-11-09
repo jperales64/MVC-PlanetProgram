@@ -34,11 +34,15 @@ public class PlanetFileParser {
 	public Planet createPlanetFromFile(String fileName) {
 		parseFile(fileName);
 		Planet planet = new Planet();
-		planet.setPlanetName(contentsArray[0]);
-		planet.setDiameter(Double.parseDouble(contentsArray[1]));
-		planet.setTemperature(Double.parseDouble(contentsArray[2]));
-		planet.setNumOfMoons(Integer.parseInt(contentsArray[3]));
-		planet.setPlanetImg(contentsArray[4]);
+		try {
+			planet.setName(contentsArray[0]);
+			planet.setDiameter(Double.parseDouble(contentsArray[1]));
+			planet.setTemperature(Double.parseDouble(contentsArray[2]));
+			planet.setNumberOfMoons(Integer.parseInt(contentsArray[3]));
+			planet.setPlanetImg(contentsArray[4]);
+		}catch (Exception e) {
+			System.out.println("Nothing in file to create from.");
+		}
 		
 		return planet;
 	}

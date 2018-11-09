@@ -15,9 +15,9 @@ public class PlanetDirector {
 	}
 	
 	public void makePlanet(String planetName, double planetDiameter, int numOfMoons, double temp, String planetImg) {
-		this.planetBuilder.buildPlanetName(planetName);
+		this.planetBuilder.buildName(planetName);
 		this.planetBuilder.buildDiameter(planetDiameter);
-		this.planetBuilder.buildNumofMoons(numOfMoons);
+		this.planetBuilder.buildNumberofMoons(numOfMoons);
 		this.planetBuilder.buildTemp(temp);
 		this.planetBuilder.buildPlanetImg(planetImg);
 	}

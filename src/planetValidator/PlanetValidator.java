@@ -42,8 +42,8 @@ public class PlanetValidator {
 	}
 
 	public boolean validatePlanet(Planet planet){
-		if(!(validateName(planet.getPlanetName()) && validateDiameter(planet.getDiameter())
-				&& validateTemp(planet.getTemperature()) && validateNumOfMoons(planet.getNumOfMoons()))) {
+		if(!(validateName(planet.getName()) && validateDiameter(planet.getDiameter())
+				&& validateTemp(planet.getTemperature()) && validateNumOfMoons(planet.getNumberOfMoons()))) {
 			return false;
 		}
 		else {

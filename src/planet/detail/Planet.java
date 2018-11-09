@@ -3,7 +3,9 @@ package planet.detail;
 import java.io.Serializable;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -14,85 +16,65 @@ public class Planet implements PlanetPlan, Serializable   {
 	 */
 	private static final long serialVersionUID = 1L;
 	String name;
-	Double temp;
-	int numbOfMoons;
+	double diameter;
+	double temperature;
+	int numberOfMoons;
 	String planetImg;
 	
-	DoubleProperty diameterProperty = new SimpleDoubleProperty();
-	StringProperty nameProperty = new SimpleStringProperty();
-	DoubleProperty tempProperty = new SimpleDoubleProperty();
-	
-	public Planet() {
+	public Planet() {	
 		this.name = "";
-		//this.temp = -300.0;
-		this.numbOfMoons = -1;
-		this.planetImg = "images/no_image.png";
-		
-		this.nameProperty.set("");
-		this.diameterProperty.set(-1.0);
-		this.tempProperty.set(-300.00);
-		
+		this.diameter = 0;
+		this.temperature = -300.00;
+		this.numberOfMoons = -1;
+		this.planetImg = "images/no_image";
 	}
 	
-	public void setPlanetName(String name) {
-		this.nameProperty.set(name);
+	public void setName(String name) {
+		this.name = name;
 	}
 	
-	public String getPlanetName() {
-		return this.nameProperty.get();
-	}
-	
-	public StringProperty getPlanetNameProperty() {
-		return this.nameProperty;
+	public String getName() {
+		return this.name;
 	}
 
 	public void setDiameter(double diameter) {
-		this.diameterProperty.set(diameter);
+		this.diameter = diameter;
 	}
 	
 	public double getDiameter() {
-		return this.diameterProperty.get();
+		return this.diameter;
 	}
 	
-	public DoubleProperty getDiameterProperty() {
-		return this.diameterProperty;
-	}
-	
-	public void setTemperature(double tempInCelcius) {
-		this.tempProperty.set(tempInCelcius);
+	public void setTemperature(double temperature) {
+		this.temperature = temperature;
 	}
 	
 	public double getTemperature() {
-		return this.tempProperty.get();
+		return temperature;
 	}
 	
-	public DoubleProperty getTemperatureProperty() {
-		return this.tempProperty;
+	public void setNumberOfMoons(int numberOfMoons) {
+		this.numberOfMoons = numberOfMoons;
+	}
+	
+	public int getNumberOfMoons() {
+		return numberOfMoons;
 	}
 
-	public void setNumOfMoons(int numOfMoons) {
-		this.numbOfMoons = numOfMoons;
-	}
-	
-	//@Override
 	public void setPlanetImg(String planetImg) {
 		this.planetImg = planetImg;
 	}
 	
-	public int getNumOfMoons() {
-		return numbOfMoons;
-	}
-
 	public String getPlanetImg() {
 		return planetImg;
 	}
-	
+
 	@Override
 	public String toString() {
-		return this.getPlanetName() + "\n"
+		return this.getName() + "\n"
 				+ this.getDiameter() + "\n"
 				+ this.getTemperature() + "\n"
-				+ this.getNumOfMoons() + "\n"
+				+ this.getNumberOfMoons() + "\n"
 				+ this.getPlanetImg();
 	}
 

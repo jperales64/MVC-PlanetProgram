@@ -1,17 +1,28 @@
 package planet.detail;
 
 import java.awt.Desktop;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -52,6 +63,7 @@ public class PlanetController {
 	@FXML private Button loadButton;
 	
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
+    private FileChooser fileChooser = new FileChooser();
 
 	public PlanetController() {
 	}
@@ -69,45 +81,50 @@ public class PlanetController {
     @FXML public void handleButtonAction(ActionEvent event) throws ParseException {
         if(event.getSource() == loadButton) {
         	loadPlanet();
-        }//else if (event.getSource() == saveButton) {
-        	//savePlanet();
-        //}else if (event.getSource() == selectImageButton) {
+        }else if (event.getSource() == saveButton) {
+        	savePlanet();
+        }//else if (event.getSource() == selectImageButton) {
         	//selectImage();
         //}
     }
 	
 	public void loadPlanet() {	
 		PlanetFileParser pfParser = new PlanetFileParser();
-		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File("saved_planets"));
 		File planetFile = fileChooser.showOpenDialog(loadButton.getScene().getWindow());
+		System.out.println(pfParser.createPlanetFromFile(planetFile.getAbsolutePath()));
 		planet = pfParser.createPlanetFromFile(planetFile.getAbsolutePath());
 		setTextFields(planet);
 		setPlanetImage(planet);
 	}
 	
-	Planet buildPlanetFromTextFields(){
+	public Planet buildPlanetFromFields(){
 		String nameOfPlanet = planetName.getText();
 		Double diameter = Double.parseDouble(planetDiameterKM.getText());
 		Double temp = Double.parseDouble(planetMeanSurfaceTempC.getText());
 		int numbOfMoons = Integer.parseInt(planetNumberOfMoons.getText());
-		planetDirector.makePlanet(nameOfPlanet, diameter, numbOfMoons, temp, null);
+		String planetImage = "images/" + nameOfPlanet.toLowerCase() + ".png";
+		planetDirector.makePlanet(nameOfPlanet, diameter, numbOfMoons, temp, planetImage);
 		return planetDirector.getPlanet();
 		
 	}
 
-	@FXML
-	void savePlanet(ActionEvent event) {
-		//Use the text in the text fields to build a planet and save it
-		planet = buildPlanetFromTextFields();
-		//IDk how to handle an Invalid planet GUI wise
-		boolean result = planetValidator.validatePlanet(planet);
-		if(!result){
-			
+	public void savePlanet() {
+		planet = buildPlanetFromFields();
+		//check for valid planet info here. will throw Alert if not correct.
+//		boolean result = planetValidator.validatePlanet(planet);
+//		if(!result){
+//			
+//		}
+		System.out.println(planet);
+		try {
+			String planetLines[] = planet.toString().split("\\r?\\n");
+			List<String> planetDetails = Arrays.asList(planetLines);
+			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("saved_planets/" + planet.getName())));
+			writer.write(planet.toString());
+		}catch (Exception e) {
+			System.out.println("Could not save.");
 		}
-		String filename = "c:\\temp\\" + planet.getPlanetName() + ".ser";
-		//planetFileChooser.showSaveDialog(null);
-		//planetFileChooser.grabFocus();
 	}
 
 	void setTextFields(Planet planet)  {
@@ -117,7 +134,7 @@ public class PlanetController {
 		String planetTempInCelcius;
 		String planetTempInFahrenheit;
 		
-		planetName.setText(planet.getPlanetName());
+		planetName.setText(planet.getName());
 
 		planetDiameterInKilometers = Double.toString(planet.getDiameter());
 		planetDiameterKM.setText(planetDiameterInKilometers);
@@ -131,7 +148,7 @@ public class PlanetController {
 		planetTempInFahrenheit = Double.toString(unitConverter.celciusToFahrenheit(planet.getTemperature()));
 		planetMeanSurfaceTempF.setText(planetTempInFahrenheit);
 		
-		planetNumberOfMoons.setText(Integer.toString(planet.getNumOfMoons()));
+		planetNumberOfMoons.setText(Integer.toString(planet.getNumberOfMoons()));
 		
 		if (planetName.getText().equals("")) {
 			saveButton.setDisable(true);

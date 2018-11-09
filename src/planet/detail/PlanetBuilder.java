@@ -8,8 +8,8 @@ public class PlanetBuilder {
 		this.planet = new Planet();
 	}
 	
-	public void buildPlanetName(String name) { 
-		this.planet.setPlanetName(name);
+	public void buildName(String name) { 
+		this.planet.setName(name);
 	}
 	
 	public void buildDiameter(double diameter) {
@@ -20,8 +20,8 @@ public class PlanetBuilder {
 		this.planet.setTemperature(temp);
 	}
 	
-	public void buildNumofMoons(int numOfMoons) {
-		this.planet.setNumOfMoons(numOfMoons);
+	public void buildNumberofMoons(int numOfMoons) {
+		this.planet.setNumberOfMoons(numOfMoons);
 		
 	}
 	
