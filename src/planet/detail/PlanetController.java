@@ -81,8 +81,9 @@ public class PlanetController {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File("saved_planets"));
 		File planetFile = fileChooser.showOpenDialog(loadButton.getScene().getWindow());
-		Planet loadedPlanet = pfParser.createPlanetFromFile(planetFile.getAbsolutePath());
-		System.out.println(loadedPlanet);
+		planet = pfParser.createPlanetFromFile(planetFile.getAbsolutePath());
+		setTextFields(planet);
+		setPlanetImage(planet);
 	}
 	
 	Planet buildPlanetFromTextFields(){
