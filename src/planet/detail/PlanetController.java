@@ -103,7 +103,9 @@ public class PlanetController {
 		Double diameter = Double.parseDouble(planetDiameterKM.getText());
 		Double temp = Double.parseDouble(planetMeanSurfaceTempC.getText());
 		int numbOfMoons = Integer.parseInt(planetNumberOfMoons.getText());
-		String planetImage = "images/" + nameOfPlanet.toLowerCase() + ".png";
+		//TODO: set up select image to determine this.
+		String planetImage = "images/no_image.png";
+		//String planetImage = "images/" + nameOfPlanet.toLowerCase() + ".png";
 		planetDirector.makePlanet(nameOfPlanet, diameter, numbOfMoons, temp, planetImage);
 		return planetDirector.getPlanet();
 		
@@ -116,12 +118,12 @@ public class PlanetController {
 //		if(!result){
 //			
 //		}
-		System.out.println(planet);
 		try {
 			String planetLines[] = planet.toString().split("\\r?\\n");
 			List<String> planetDetails = Arrays.asList(planetLines);
-			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("saved_planets/" + planet.getName())));
+			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("saved_planets/" + planet.getName()+".txt")));
 			writer.write(planet.toString());
+			writer.close();
 		}catch (Exception e) {
 			System.out.println("Could not save.");
 		}
@@ -206,7 +208,6 @@ public class PlanetController {
 	
 	public void initialize() {
 		
-		//loadButton.setDefaultButton(true);
 		setTextFields(planet);
 		setPlanetImage(planet);
 				

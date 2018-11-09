@@ -26,7 +26,7 @@ public class Planet implements PlanetPlan, Serializable   {
 		this.diameter = 0;
 		this.temperature = -300.00;
 		this.numberOfMoons = -1;
-		this.planetImg = "images/no_image";
+		this.planetImg = "images/no_image.png";
 	}
 	
 	public void setName(String name) {
