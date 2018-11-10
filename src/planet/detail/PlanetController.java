@@ -12,13 +12,18 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -27,7 +32,7 @@ import planetValidator.PlanetValidator;
 import planetValidator.ValidationError;
 import unitConverter.UnitConverter;
 
-public class PlanetController {
+public class PlanetController{
 	private PlanetLoader planetLoader = new PlanetLoader();
 	private PlanetSaver planetSaver = new PlanetSaver();
 	private Planet planet = new Planet();
@@ -37,12 +42,14 @@ public class PlanetController {
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private FileChooser fileChooser = new FileChooser();
     private AlertBuilder alert = new AlertBuilder();
-    private DecimalFormat decimalFormat = new DecimalFormat("###,###.###");
+    private DecimalFormat decimalFormat = new DecimalFormat(",###.###");
+    private double doubleD = 0;
 	
 	@FXML private ImageView planetImage;
 	@FXML private Button selectImageButton;
 	@FXML private TextField planetName;
 	@FXML private TextField planetDiameterKM;
+
 	@FXML private TextField planetDiameterM;
 	@FXML private TextField planetMeanSurfaceTempC;
 	@FXML private TextField planetMeanSurfaceTempF;
@@ -123,15 +130,15 @@ public class PlanetController {
 		}
 		
 		if (planetValidator.validateDiameter(planet.getDiameter()) != ValidationError.DIAMETER_RANGE) {
-			planetDiameterInKilometers = Double.toString(planet.getDiameter());
-			planetDiameterInMiles = Double.toString(unitConverter.kilometerToMile(planet.getDiameter()));
+			planetDiameterInKilometers = decimalFormat.format(planet.getDiameter());
+			planetDiameterInMiles = decimalFormat.format(unitConverter.kilometerToMile(planet.getDiameter()));
 		}
-		planetDiameterKM.setText(NumberFormat.getNumberInstance(Locale.US).format(planet.getDiameter()));
-		planetDiameterM.setText(NumberFormat.getNumberInstance(Locale.US).format(unitConverter.kilometerToMile(planet.getDiameter())));
+		planetDiameterKM.setText(planetDiameterInKilometers);
+		planetDiameterM.setText(planetDiameterInMiles);
 		
 		if (planetValidator.validateTemp(planet.getTemperature()) != ValidationError.TEMPERATURE_RANGE) {
-			planetTempInCelcius = Double.toString(planet.getTemperature());
-			planetTempInFahrenheit = Double.toString(unitConverter.celciusToFahrenheit(planet.getTemperature()));
+			planetTempInCelcius = decimalFormat.format(planet.getTemperature());
+			planetTempInFahrenheit = decimalFormat.format(unitConverter.celciusToFahrenheit(planet.getTemperature()));
 		}
 		planetMeanSurfaceTempC.setText(planetTempInCelcius);
 		planetMeanSurfaceTempF.setText(planetTempInFahrenheit);
@@ -160,8 +167,8 @@ public class PlanetController {
 	        	this.planet.setDiameter(n.doubleValue());
 	        	diameterInMiles = unitConverter.kilometerToMile(n.doubleValue());
 	        	formattedDiameter = decimalFormat.format(diameterInMiles);
-
 	        	planetDiameterM.setText(formattedDiameter);
+	        	doubleD = n.doubleValue();
 			} catch (ParseException e) {
 	        	planetDiameterM.setText("");
 			}
@@ -186,30 +193,6 @@ public class PlanetController {
         }
     };
     
-//	private InvalidationListener formatNumber = (Observable o) -> {
-//
-//        double formattedNumber;
-//		if (planetDiameterKM.isFocused()) {
-//			try {
-//        	formattedNumber = Double.parseDouble(planetDiameterM.getText());
-//			}catch (Exception er) {
-//				System.out.println("Nice try");
-//			}
-//        	
-//        } else if (planetMeanSurfaceTempC.isFocused()) {
-//
-//        	Number n;
-//        	double tempInFahrenheit;
-//			try {
-//				n = numberFormat.parse(planetMeanSurfaceTempC.getText());
-//	        	this.planet.setTemperature(n.doubleValue());
-//	        	tempInFahrenheit = unitConverter.celciusToFahrenheit(n.doubleValue());
-//	        	planetMeanSurfaceTempF.setText(Double.toString(tempInFahrenheit));
-//			} catch (ParseException e) {
-//			}
-//        }
-//    };
-    
 	private InvalidationListener nothingToSave = (Observable o) -> {
 		if (planetName.isFocused()) {
 			if (planetName.getText().equals("")) {
@@ -219,14 +202,27 @@ public class PlanetController {
 			}
 		}
     };
-	
+    
+    private ChangeListener<String> formatDiameter = new ChangeListener<String>() {
+	    @Override
+	    public void changed(ObservableValue<? extends String> observable, 
+	    		String oldValue, String newValue) {
+	    	if (newValue.contains(".")) {
+	    		planetDiameterKM.setText(newValue);
+	    	} else {
+	    		planetDiameterKM.setText(decimalFormat.format(Double.parseDouble(newValue.replaceAll(",", ""))));
+	    	}	    	
+	    }
+	};
+    
 	public void initialize() {
-		
+
 		fancyPlanetName.textProperty().bind(planetName.textProperty());
 		planetDiameterKM.textProperty().addListener(fromKilometers);
+		planetDiameterKM.textProperty().addListener(formatDiameter);
 		planetMeanSurfaceTempC.textProperty().addListener(fromCelcius);
+		
 		planetName.textProperty().addListener(nothingToSave);
-		//planetDiameterKM.textProperty().addListener(formatNumber);
 		
 		setTextFields(planet);
 		setPlanetImage(planet);

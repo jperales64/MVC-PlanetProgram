@@ -18,9 +18,8 @@ public class AppMain extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
+		Thread.setDefaultUncaughtExceptionHandler((Thread t, Throwable e) -> {});
 		PlanetController controller = new PlanetController();
-
 		FXMLLoader loader = new FXMLLoader(controller.getClass().getResource("PlanetView.fxml"));
 		loader.setController(controller);
 		
