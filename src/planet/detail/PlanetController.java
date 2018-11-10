@@ -10,18 +10,29 @@ import java.io.Writer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
+import javafx.util.converter.DateTimeStringConverter;
+import javafx.util.converter.DoubleStringConverter;
 import planetValidator.AlertBuilder;
 import planetValidator.PlanetValidator;
 import planetValidator.ValidationError;
@@ -160,8 +171,9 @@ public class PlanetController {
 	        	this.planet.setDiameter(n.doubleValue());
 	        	diameterInMiles = unitConverter.kilometerToMile(n.doubleValue());
 	        	formattedDiameter = decimalFormat.format(diameterInMiles);
-
+	       
 	        	planetDiameterM.setText(formattedDiameter);
+
 			} catch (ParseException e) {
 	        	planetDiameterM.setText("");
 			}
@@ -224,13 +236,33 @@ public class PlanetController {
 		
 		fancyPlanetName.textProperty().bind(planetName.textProperty());
 		planetDiameterKM.textProperty().addListener(fromKilometers);
-		planetMeanSurfaceTempC.textProperty().addListener(fromCelcius);
+	
 		planetName.textProperty().addListener(nothingToSave);
+		
+		planetDiameterKM.setOnKeyPressed(new EventHandler<KeyEvent>()
+	    {
+	        @Override
+	        public void handle(KeyEvent ke)
+	        {
+	            if (ke.getCode().equals(KeyCode.ENTER))
+	            {
+	                String text = planetDiameterKM.getText();
+	                planetDiameterKM.setText(NumberFormat.getNumberInstance(Locale.US).format(Double.valueOf(text)));
+	            }
+	        }
+	    });
+		
+		//planetDiameterKM.setText(NumberFormat.getNumberInstance(Locale.US).format(planet.getDiameter()));
 		//planetDiameterKM.textProperty().addListener(formatNumber);
 		
 		setTextFields(planet);
 		setPlanetImage(planet);
 
 	}
+	public void onEnter(ActionEvent ae){
+		   System.out.println("test") ;
+		}
+	
+	
 
 }
