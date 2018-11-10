@@ -10,6 +10,8 @@ import java.io.Writer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Locale;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
@@ -124,8 +126,8 @@ public class PlanetController {
 			planetDiameterInKilometers = Double.toString(planet.getDiameter());
 			planetDiameterInMiles = Double.toString(unitConverter.kilometerToMile(planet.getDiameter()));
 		}
-		planetDiameterKM.setText(planetDiameterInKilometers);
-		planetDiameterM.setText(planetDiameterInMiles);
+		planetDiameterKM.setText(NumberFormat.getNumberInstance(Locale.US).format(planet.getDiameter()));
+		planetDiameterM.setText(NumberFormat.getNumberInstance(Locale.US).format(unitConverter.kilometerToMile(planet.getDiameter())));
 		
 		if (planetValidator.validateTemp(planet.getTemperature()) != ValidationError.TEMPERATURE_RANGE) {
 			planetTempInCelcius = Double.toString(planet.getTemperature());
