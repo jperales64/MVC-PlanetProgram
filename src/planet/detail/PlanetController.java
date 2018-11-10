@@ -93,7 +93,9 @@ public class PlanetController {
 	public Planet buildPlanetFromFields(){
 		
 		String nameOfPlanet = planetName.getText();
-		Double diameter = Double.parseDouble(planetDiameterKM.getText());
+		String diamterStr = planetDiameterKM.getText();
+		diamterStr = diamterStr.replace(",", "");
+		Double diameter = Double.parseDouble(diamterStr);
 		Double temp = Double.parseDouble(planetMeanSurfaceTempC.getText());
 		int numbOfMoons = Integer.parseInt(planetNumberOfMoons.getText());
 		String planetImage = planet.getPlanetImg();
@@ -239,18 +241,18 @@ public class PlanetController {
 	
 		planetName.textProperty().addListener(nothingToSave);
 		
-		planetDiameterKM.setOnKeyPressed(new EventHandler<KeyEvent>()
-	    {
-	        @Override
-	        public void handle(KeyEvent ke)
-	        {
-	            if (ke.getCode().equals(KeyCode.ENTER))
-	            {
-	                String text = planetDiameterKM.getText();
-	                planetDiameterKM.setText(NumberFormat.getNumberInstance(Locale.US).format(Double.valueOf(text)));
-	            }
-	        }
-	    });
+//		planetDiameterKM.setOnKeyPressed(new EventHandler<KeyEvent>()
+//	    {
+//	        @Override
+//	        public void handle(KeyEvent ke)
+//	        {
+//	            if (ke.getCode().equals(KeyCode.ENTER))
+//	            {
+//	                String text = planetDiameterKM.getText();
+//	                planetDiameterKM.setText(NumberFormat.getNumberInstance(Locale.US).format(Double.valueOf(text)));
+//	            }
+//	        }
+//	    });
 		
 		//planetDiameterKM.setText(NumberFormat.getNumberInstance(Locale.US).format(planet.getDiameter()));
 		//planetDiameterKM.textProperty().addListener(formatNumber);
