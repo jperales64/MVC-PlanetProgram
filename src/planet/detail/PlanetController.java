@@ -42,14 +42,12 @@ public class PlanetController{
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private FileChooser fileChooser = new FileChooser();
     private AlertBuilder alert = new AlertBuilder();
-    private DecimalFormat decimalFormat = new DecimalFormat(",###.###");
-    private double doubleD = 0;
+    private DecimalFormat decimalFormat = new DecimalFormat("###,###.###");
 	
 	@FXML private ImageView planetImage;
 	@FXML private Button selectImageButton;
 	@FXML private TextField planetName;
 	@FXML private TextField planetDiameterKM;
-
 	@FXML private TextField planetDiameterM;
 	@FXML private TextField planetMeanSurfaceTempC;
 	@FXML private TextField planetMeanSurfaceTempF;
@@ -168,7 +166,6 @@ public class PlanetController{
 	        	diameterInMiles = unitConverter.kilometerToMile(n.doubleValue());
 	        	formattedDiameter = decimalFormat.format(diameterInMiles);
 	        	planetDiameterM.setText(formattedDiameter);
-	        	doubleD = n.doubleValue();
 			} catch (ParseException e) {
 	        	planetDiameterM.setText("");
 			}
