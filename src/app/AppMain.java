@@ -1,8 +1,5 @@
 package app;
 
-import java.awt.Desktop;
-import java.io.File;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,7 +26,7 @@ public class AppMain extends Application {
 		
 		Pane pane = (Pane) loader.load();
 
-		Scene scene = new Scene(pane, 590, 400);
+		Scene scene = new Scene(pane);
 		primaryStage.setTitle("CS 4773 Assignment 3");
 		primaryStage.setScene(scene);
 		primaryStage.show();

@@ -22,7 +22,6 @@ public class PlanetBuilder {
 	
 	public void buildNumberofMoons(int numOfMoons) {
 		this.planet.setNumberOfMoons(numOfMoons);
-		
 	}
 	
 	public void buildPlanetImg(String planetImg) {

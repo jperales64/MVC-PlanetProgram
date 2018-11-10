@@ -83,7 +83,5 @@ public class PlanetValidator {
 		}else {
 			return ValidationError.NONE;
 		}
-
 	}
-	
 }
