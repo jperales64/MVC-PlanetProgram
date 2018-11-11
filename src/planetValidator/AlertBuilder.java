@@ -15,7 +15,7 @@ public class AlertBuilder {
 		errorAlert.setTitle("Invalid Entry");
 		errorAlert.setHeaderText(null);
 		if(error.equals(ValidationError.NAME_LENGTH)) {
-			errorAlert.setContentText("The planet name should be between 0 and 256 characters.");
+			errorAlert.setContentText("The planet name should be between 0 and 256 characters.");		
 		}else if (error.equals(ValidationError.NAME_REGEX)) {
 			errorAlert.setContentText("You can only use the following characters: "
 					+ "A-Z, a-z, 0-9, spaces, hyphens, periods");
@@ -27,9 +27,7 @@ public class AlertBuilder {
 			errorAlert.setContentText("Number of moons cannot be less than 0 or greater than 1000.");
 		}else if (error.equals(ValidationError.EMPTY_FIELD)) {
 			errorAlert.setContentText("Fields cannot be left empty.");
-		}else {
-			return;
-		}
+		}else { return; }
 		errorAlert.showAndWait();
 	}
 	
@@ -53,6 +51,8 @@ public class AlertBuilder {
         ButtonType okButton = new ButtonType("Ok");
         ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
         Alert loadAlert = new Alert(Alert.AlertType.CONFIRMATION,"",okButton,cancelButton);
+        loadAlert.setHeaderText(null);
+        loadAlert.setContentText("Do you want to overwrite your work?");
         Window window = loadAlert.getDialogPane().getScene().getWindow();
         window.setOnCloseRequest(e -> loadAlert.hide());
         Optional<ButtonType> result = loadAlert.showAndWait();

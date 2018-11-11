@@ -2,18 +2,8 @@ package planet.detail;
 
 import java.io.Serializable;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 public class Planet implements PlanetPlan, Serializable   {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	String name;
 	double diameter;

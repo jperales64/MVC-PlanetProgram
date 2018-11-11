@@ -1,48 +1,21 @@
 package planet.detail;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.File;
+import javafx.stage.FileChooser;
 
 public class PlanetLoader {
+    private FileChooser fileChooser = new FileChooser();
 
-	public Planet loadPlanet(String filename) {
-
+	public Planet loadPlanet(File file) {		
 		Planet planet = null;
-
-		FileInputStream fin = null;
-		ObjectInputStream ois = null;
-
+		
+		PlanetFileParser pfParser = new PlanetFileParser();
+		fileChooser.setInitialDirectory(new File("saved_planets"));
+		
 		try {
-
-			fin = new FileInputStream(filename);
-			ois = new ObjectInputStream(fin);
-			planet = (Planet) ois.readObject();
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-
-			if (fin != null) {
-				try {
-					fin.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (ois != null) {
-				try {
-					ois.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-		}
-
+			planet = pfParser.createPlanetFromFile(file.getAbsolutePath()); 
+		}catch (Exception e) {}
+		
 		return planet;
-
 	}
-
 }

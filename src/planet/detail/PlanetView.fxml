@@ -44,7 +44,7 @@
                   <HBox minWidth="-Infinity" prefHeight="100.0">
                      <children>
                         <Label text="Planet Diameter (km)" />
-                        <TextField fx:id="planetDiameterKMField" text="">
+                        <TextField fx:id="planetDiameterKMField" text="" >
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
@@ -54,7 +54,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label text="Planet Diameter (m)" />
-                        <TextField fx:id="planetDiameterMiField" editable="false" text="">
+                        <TextField fx:id="planetDiameterMiField" editable="false" text="" >
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
@@ -64,7 +64,7 @@
                   <HBox prefHeight="100.0">
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" text="Planet Mean Surface Temp. (C)" />
-                        <TextField fx:id="planetMeanSurfaceTempCField" text="">
+                        <TextField fx:id="planetMeanSurfaceTempCField" text="" >
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
@@ -74,7 +74,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label minWidth="-Infinity" text="Planet Mean Surface Temp. (F)" />
-                        <TextField fx:id="planetMeanSurfaceTempFField" editable="false" text="">
+                        <TextField fx:id="planetMeanSurfaceTempFField" editable="false" text="" >
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
@@ -84,7 +84,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label text="# of Moons" />
-                        <TextField fx:id="planetNumOfMoonsField" text="">
+                        <TextField fx:id="planetNumOfMoonsField" text="" >
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>

@@ -1,46 +1,32 @@
 package planet.detail;
 
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
+import planetValidator.AlertBuilder;
+import planetValidator.PlanetValidator;
 
 public class PlanetSaver {
-	
+	private PlanetValidator planetValidator = new PlanetValidator();
+    private AlertBuilder alert = new AlertBuilder();
+
 	public void savePlanet(Planet planet) {
-		String fileName = "c:\\temp\\" + planet.getName() + ".ser";
-		FileOutputStream fout = null;
-		ObjectOutputStream oos = null; 
+		boolean result = planetValidator.validatePlanet(planet);
+		alert.validationAlert(planetValidator.getValidationError(planet));
 
-		try {
-
-			fout = new FileOutputStream(fileName);
-			oos = new ObjectOutputStream(fout);
-			oos.writeObject(planet);
-
-			
-
-		} catch (Exception ex) {
-
-			ex.printStackTrace();
-
-		} finally {
-
-			if (fout != null) {
-				try {
-					fout.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		if (result) {
+			try {
+				Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("saved_planets/" + planet.getName()+".txt")));
+				writer.write(planet.toString());
+				writer.close();
+				alert.saveAlert(true);
+			}catch (Exception e) {
+				alert.saveAlert(false);
 			}
-
-			if (oos != null) {
-				try {
-					oos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
 		}
 	}
+	
+
 }

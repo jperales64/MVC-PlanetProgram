@@ -1,7 +1,5 @@
 package planet.detail;
 
-import javafx.scene.image.Image;
-
 public class PlanetDirector {
 	
 	private PlanetBuilder planetBuilder;
