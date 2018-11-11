@@ -2,9 +2,11 @@ package planetValidator;
 
 public enum ValidationError {
 	NONE,
+	EMPTY_FIELD,
 	NAME_LENGTH,
 	NAME_REGEX,
 	DIAMETER_RANGE,
 	TEMPERATURE_RANGE,
 	MOON_NUMBER_RANGE,
+	MOON_NUMBER_TYPE
 }

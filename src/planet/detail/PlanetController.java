@@ -46,13 +46,13 @@ public class PlanetController{
 	
 	@FXML private ImageView planetImage;
 	@FXML private Button selectImageButton;
-	@FXML private TextField planetName;
-	@FXML private TextField planetDiameterKM;
-	@FXML private TextField planetDiameterM;
-	@FXML private TextField planetMeanSurfaceTempC;
-	@FXML private TextField planetMeanSurfaceTempF;
-	@FXML private TextField planetNumberOfMoons;
-	@FXML private Label fancyPlanetName;
+	@FXML private TextField planetNameField;
+	@FXML private TextField planetDiameterKMField;
+	@FXML private TextField planetDiameterMiField;
+	@FXML private TextField planetMeanSurfaceTempCField;
+	@FXML private TextField planetMeanSurfaceTempFField;
+	@FXML private TextField planetNumOfMoonsField;
+	@FXML private Label fancyPlanetNameLabel;
 	@FXML private Button saveButton;
 	@FXML private Button loadButton;
 
@@ -63,7 +63,7 @@ public class PlanetController{
 		fileChooser.setInitialDirectory(new File("images"));
 		File planetImage = fileChooser.showOpenDialog(loadButton.getScene().getWindow());
 		try {
-			planet.setPlanetImg("images/" + planetImage.getName()); 
+			planet.setPlanetImg(planetImage.getName()); 
 		}catch (Exception e) {
 			System.out.println("Failed to load image");
 		}
@@ -85,21 +85,46 @@ public class PlanetController{
 	}
 	
 	public Planet buildPlanetFromFields(){
+		String nameOfPlanet, planetImage;
+		double diameter, temp;
+		int numOfMoons;
 		
-		String nameOfPlanet = planetName.getText();
-		Double diameter = Double.parseDouble(planetDiameterKM.getText());
-		Double temp = Double.parseDouble(planetMeanSurfaceTempC.getText());
-		int numbOfMoons = Integer.parseInt(planetNumberOfMoons.getText());
-		String planetImage = planet.getPlanetImg();
-		planetDirector.makePlanet(nameOfPlanet, diameter, numbOfMoons, temp, planetImage);
+		nameOfPlanet = planetNameField.getText();
+
+		
+		if (planetDiameterKMField.getText().equals("")) {
+			diameter = planet.getDiameter();
+		}else {
+			diameter = Double.parseDouble(planetDiameterKMField.getText().replaceAll(",", ""));
+		}
+
+		
+		if (planetMeanSurfaceTempCField.getText().equals("")) {
+			temp = planet.getTemperature();
+		}else {
+			temp = Double.parseDouble(planetMeanSurfaceTempCField.getText());
+		}
+		
+		if (planetNumOfMoonsField.getText().equals("")) {
+			numOfMoons = planet.getNumberOfMoons();
+		}else {
+			numOfMoons = Integer.parseInt(planetNumOfMoonsField.getText());
+		}
+		
+		planetImage = planet.getPlanetImg();
+		
+		planetDirector.makePlanet(nameOfPlanet, diameter, numOfMoons, temp, planetImage);
 		return planetDirector.getPlanet();
 	}
 
 	@FXML
 	public void savePlanet() {
+
 		planet = buildPlanetFromFields();
+
 		boolean result = planetValidator.validatePlanet(planet);
 		alert.validationAlert(planetValidator.getValidationError(planet));
+
 
 		if (result) {
 			try {
@@ -119,11 +144,12 @@ public class PlanetController{
 		String planetDiameterInMiles = "";
 		String planetTempInCelcius = "";
 		String planetTempInFahrenheit = "";
+		String planetNumOfMoons = "";
 		saveButton.setDisable(false);
 		
-		planetName.setText(planet.getName());
+		planetNameField.setText(planet.getName());
 		
-		if (planetName.getText().equals("")) {
+		if (planetNameField.getText().equals("")) {
 			saveButton.setDisable(true);
 		}
 		
@@ -131,19 +157,23 @@ public class PlanetController{
 			planetDiameterInKilometers = decimalFormat.format(planet.getDiameter());
 			planetDiameterInMiles = decimalFormat.format(unitConverter.kilometerToMile(planet.getDiameter()));
 		}
-		planetDiameterKM.setText(planetDiameterInKilometers);
-		planetDiameterM.setText(planetDiameterInMiles);
+		planetDiameterKMField.setText(planetDiameterInKilometers);
+		planetDiameterMiField.setText(planetDiameterInMiles);
 		
 		if (planetValidator.validateTemp(planet.getTemperature()) != ValidationError.TEMPERATURE_RANGE) {
 			planetTempInCelcius = decimalFormat.format(planet.getTemperature());
 			planetTempInFahrenheit = decimalFormat.format(unitConverter.celciusToFahrenheit(planet.getTemperature()));
 		}
-		planetMeanSurfaceTempC.setText(planetTempInCelcius);
-		planetMeanSurfaceTempF.setText(planetTempInFahrenheit);
+		planetMeanSurfaceTempCField.setText(planetTempInCelcius);
+		planetMeanSurfaceTempFField.setText(planetTempInFahrenheit);
 		
-		if (planetValidator.validateNumOfMoons(planet.getNumberOfMoons()) != ValidationError.MOON_NUMBER_RANGE) 
-			planetNumberOfMoons.setText(Integer.toString(planet.getNumberOfMoons()));
+		if (planetValidator.validateNumOfMoons(planet.getNumberOfMoons()) != ValidationError.MOON_NUMBER_RANGE) {
+			planetNumOfMoons = Integer.toString(planet.getNumberOfMoons());
+		}
+		planetNumOfMoonsField.setText(planetNumOfMoons);
+
 	}
+	
 	
 	void setPlanetImage(Planet planet){
 		try {
@@ -156,43 +186,43 @@ public class PlanetController{
 	}
 	
 	private InvalidationListener fromKilometers = (Observable o) -> {
-        if (planetDiameterKM.isFocused()) {
+        if (planetDiameterKMField.isFocused()) {
         	Number n;
         	double diameterInMiles;
         	String formattedDiameter;
 			try {
-				n = numberFormat.parse(planetDiameterKM.getText());
+				n = numberFormat.parse(planetDiameterKMField.getText());
 	        	this.planet.setDiameter(n.doubleValue());
 	        	diameterInMiles = unitConverter.kilometerToMile(n.doubleValue());
 	        	formattedDiameter = decimalFormat.format(diameterInMiles);
-	        	planetDiameterM.setText(formattedDiameter);
+	        	planetDiameterMiField.setText(formattedDiameter);
 			} catch (ParseException e) {
-	        	planetDiameterM.setText("");
+	        	planetDiameterMiField.setText("");
 			}
         }
     };
     
 	private InvalidationListener fromCelcius = (Observable o) -> {
-        if (planetMeanSurfaceTempC.isFocused()) {
+        if (planetMeanSurfaceTempCField.isFocused()) {
         	Number n;
         	double tempInFahrenheit;
         	String formattedTemp;
 			try {
-				n = numberFormat.parse(planetMeanSurfaceTempC.getText());
+				n = numberFormat.parse(planetMeanSurfaceTempCField.getText());
 	        	this.planet.setTemperature(n.doubleValue());
 	        	tempInFahrenheit = unitConverter.celciusToFahrenheit(n.doubleValue());
 	        	formattedTemp = decimalFormat.format(tempInFahrenheit);
-	        	planetMeanSurfaceTempF.setText(formattedTemp);
+	        	planetMeanSurfaceTempFField.setText(formattedTemp);
 			} catch (ParseException e) {
-	        	planetMeanSurfaceTempF.setText("");
+	        	planetMeanSurfaceTempFField.setText("");
 
 			}
         }
     };
     
 	private InvalidationListener nothingToSave = (Observable o) -> {
-		if (planetName.isFocused()) {
-			if (planetName.getText().equals("")) {
+		if (planetNameField.isFocused()) {
+			if (planetNameField.getText().equals("")) {
 				saveButton.setDisable(true);
 			}else {
 				saveButton.setDisable(false);
@@ -205,21 +235,32 @@ public class PlanetController{
 	    public void changed(ObservableValue<? extends String> observable, 
 	    		String oldValue, String newValue) {
 	    	if (newValue.contains(".")) {
-	    		planetDiameterKM.setText(newValue);
+	    		planetDiameterKMField.setText(newValue);
 	    	} else {
-	    		planetDiameterKM.setText(decimalFormat.format(Double.parseDouble(newValue.replaceAll(",", ""))));
+	    		planetDiameterKMField.setText(decimalFormat.format(Double.parseDouble(newValue.replaceAll(",", ""))));
 	    	}	    	
+	    }
+	};
+	
+    private ChangeListener<String> makeIntField = new ChangeListener<String>() {
+	    @Override
+	    public void changed(ObservableValue<? extends String> observable, String oldValue, 
+	        String newValue) {
+	        if (!newValue.matches("\\d*")) {
+	            planetNumOfMoonsField.setText(newValue.replaceAll("[^\\d]", ""));
+	        }
 	    }
 	};
     
 	public void initialize() {
 
-		fancyPlanetName.textProperty().bind(planetName.textProperty());
-		planetDiameterKM.textProperty().addListener(fromKilometers);
-		planetDiameterKM.textProperty().addListener(formatDiameter);
-		planetMeanSurfaceTempC.textProperty().addListener(fromCelcius);
+		fancyPlanetNameLabel.textProperty().bind(planetNameField.textProperty());
+		planetDiameterKMField.textProperty().addListener(fromKilometers);
+		planetDiameterKMField.textProperty().addListener(formatDiameter);
+		planetMeanSurfaceTempCField.textProperty().addListener(fromCelcius);
+		planetNumOfMoonsField.textProperty().addListener(makeIntField);
 		
-		planetName.textProperty().addListener(nothingToSave);
+		planetNameField.textProperty().addListener(nothingToSave);
 		
 		setTextFields(planet);
 		setPlanetImage(planet);

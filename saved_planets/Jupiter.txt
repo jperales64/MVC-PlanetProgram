@@ -1,0 +1,5 @@
+Jupiter
+142984.0
+-110.0
+79
+images/jupiter.jpg

@@ -20,5 +20,7 @@ public class PlanetDirector {
 		this.planetBuilder.buildNumberofMoons(numOfMoons);
 		this.planetBuilder.buildTemp(temp);
 		this.planetBuilder.buildPlanetImg(planetImg);
+		
+		System.out.println("Planet made!");
 	}
 }

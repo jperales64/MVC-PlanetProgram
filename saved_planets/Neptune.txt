@@ -1,5 +1,5 @@
 Neptune
-1000.0
--23.0
-2
+49528.0
+-200.0
+14
 images/neptune.png

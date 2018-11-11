@@ -1,0 +1,5 @@
+Earth
+12756.0
+15.0
+1
+images/earth.jpg

@@ -1,0 +1,5 @@
+Uranus
+51118.0
+-195.0
+27
+images/uranus.jpg

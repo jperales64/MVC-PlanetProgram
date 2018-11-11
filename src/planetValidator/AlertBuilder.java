@@ -20,6 +20,8 @@ public class AlertBuilder {
 			errorAlert.setContentText("Temperature should be between -273.15 C and 500.00 C.");
 		}else if(error.equals(ValidationError.MOON_NUMBER_RANGE)) {
 			errorAlert.setContentText("Number of moons cannot be less than 0 or greater than 1000.");
+		}else if (error.equals(ValidationError.EMPTY_FIELD)) {
+			errorAlert.setContentText("Fields cannot be left empty.");
 		}else {
 			return;
 		}

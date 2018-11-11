@@ -1,5 +1,0 @@
-Default
-10000.0
-100.01
-3
-images/no_image.png

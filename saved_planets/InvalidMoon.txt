@@ -1,5 +1,0 @@
-InvalidMoon
-1.0
--273.15
-0
-images/saturn.png
