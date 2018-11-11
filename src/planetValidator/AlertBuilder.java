@@ -1,7 +1,12 @@
 package planetValidator;
 
+import java.util.Optional;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Window;
 
 public class AlertBuilder {
 	
@@ -40,6 +45,21 @@ public class AlertBuilder {
 			saveAlert.setContentText("An error occured while trying to save.");
 		}
 		saveAlert.showAndWait();
+	}
+	
+	public boolean loadAlert() {
+		boolean cancelLoad = true;
+		
+        ButtonType okButton = new ButtonType("Ok");
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+        Alert loadAlert = new Alert(Alert.AlertType.CONFIRMATION,"",okButton,cancelButton);
+        Window window = loadAlert.getDialogPane().getScene().getWindow();
+        window.setOnCloseRequest(e -> loadAlert.hide());
+        Optional<ButtonType> result = loadAlert.showAndWait();
+        
+        if (result.get() == okButton)
+        	cancelLoad = false;
 
+		return cancelLoad;
 	}
 }

@@ -62,16 +62,18 @@ public class PlanetController{
 	void selectImage(ActionEvent event) {
 		fileChooser.setInitialDirectory(new File("images"));
 		File planetImage = fileChooser.showOpenDialog(loadButton.getScene().getWindow());
-		try {
-			planet.setPlanetImg(planetImage.getName()); 
-		}catch (Exception e) {
-			System.out.println("Failed to load image");
-		}
+		planet.setPlanetImg(planetImage.getName()); 
 		setPlanetImage(planet);
 	}
 	
 	@FXML
-	public void loadPlanet() {	
+	public void loadPlanet() {
+		if (!checkForEmptyFields()) {
+			if(alert.loadAlert()){
+				return;
+			}
+		}
+
 		PlanetFileParser pfParser = new PlanetFileParser();
 		fileChooser.setInitialDirectory(new File("saved_planets"));
 		File planetFile = fileChooser.showOpenDialog(loadButton.getScene().getWindow());
@@ -84,6 +86,16 @@ public class PlanetController{
 		setPlanetImage(planet);
 	}
 	
+	private boolean checkForEmptyFields() {
+		boolean isEmpty = false;
+		if (planetNameField.getText().equals("") && planetDiameterKMField.getText().equals("")
+			&& planetMeanSurfaceTempCField.getText().equals("") && planetNumOfMoonsField.getText().equals("")
+			&& planet.getPlanetImg().equals("images/no_image.png")) {
+			isEmpty = true;
+		}
+		return isEmpty;
+	}
+
 	public Planet buildPlanetFromFields(){
 		String nameOfPlanet, planetImage;
 		double diameter, temp;
